@@ -1,38 +1,105 @@
+/* General Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f7fc;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 .App {
   text-align: center;
 }
 
+/* Task Manager Container */
 .task-manager {
-  margin: 50px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  width: 100%;
+  max-width: 500px;
 }
 
+h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Task Input and Add Button */
 input {
+  width: 70%;
   padding: 10px;
   font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
   margin-right: 10px;
 }
 
 select {
   padding: 10px;
   font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
   margin-right: 10px;
 }
 
 button {
-  padding: 10px 20px;
+  background-color: rgb(13, 166, 226);
+  color: white;
+  margin: 20px;
   font-size: 16px;
+  border: none;
+  padding: 10px 20px;
   cursor: pointer;
+  border-radius: 5px;
 }
 
+button:hover {
+  background-color: rgb(0, 156, 218);
+}
+
+/* Task List Styles */
 ul {
   list-style-type: none;
   padding: 0;
 }
 
 li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #f9f9f9;
   margin: 10px 0;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
+li:hover {
+  background-color: lightgray;
+}
+
+/* Checkbox Styling */
+input[type="checkbox"] {
+  margin-right: 10px;
+  transform: scale(1.2);
+}
+
+/* Completed Task Styles */
+.completed {
+  text-decoration: line-through;
+  color: #888;
+}
+
+/* Category Section Styles */
 h3 {
   margin-top: 20px;
+  font-size: 1.5rem;
+  color: #333;
+  text-transform: capitalize;
 }

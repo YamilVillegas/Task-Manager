@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './App.css';
 
 function TaskManager() {
   const [tasks, setTasks] = useState([]);
@@ -7,7 +8,6 @@ function TaskManager() {
 
   const categories = ["Work", "Personal", "School", "Other"];
 
-  // Function to add a new task
   const addTask = () => {
     if (newTask.trim() !== "") {
       setTasks([
@@ -16,7 +16,7 @@ function TaskManager() {
           id: Date.now(),
           name: newTask,
           category: selectedCategory,
-          completed: false // New property to track completion
+          completed: false
         }
       ]);
       setNewTask("");
@@ -24,19 +24,16 @@ function TaskManager() {
     }
   };
 
-  // Function to toggle completion status of a task
   const toggleComplete = (id) => {
     setTasks(tasks.map((task) =>
       task.id === id ? { ...task, completed: !task.completed } : task
     ));
   };
 
-  // Function to delete a task
   const deleteTask = (id) => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
-  // Function to filter tasks by category
   const getFilteredTasks = (category) => {
     return tasks.filter((task) => task.category === category);
   };
@@ -45,25 +42,25 @@ function TaskManager() {
     <div className="task-manager">
       <h1>Task Manager</h1>
       
-      {/* Input field for new task */}
-      <input
-        type="text"
-        value={newTask}
-        onChange={(e) => setNewTask(e.target.value)}
-        placeholder="Add a new task"
-      />
-      
-      {/* Dropdown for category selection */}
-      <select 
-        value={selectedCategory} 
-        onChange={(e) => setSelectedCategory(e.target.value)}
-      >
-        {categories.map((category) => (
-          <option key={category} value={category}>{category}</option>
-        ))}
-      </select>
+      <div className="task-input">
+        <input
+          type="text"
+          value={newTask}
+          onChange={(e) => setNewTask(e.target.value)}
+          placeholder="Add a new task"
+        />
+        
+        <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+        >
+          {categories.map((category) => (
+            <option key={category} value={category}>{category}</option>
+          ))}
+        </select>
 
-      <button onClick={addTask}>Add Task</button>
+        <button onClick={addTask}>Add Task</button>
+      </div>
 
       {/* Render tasks by category */}
       {categories.map((category) => (
@@ -71,13 +68,13 @@ function TaskManager() {
           <h3>{category}</h3>
           <ul>
             {getFilteredTasks(category).map((task) => (
-              <li key={task.id} style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
-                <input 
-                  type="checkbox" 
-                  checked={task.completed} 
-                  onChange={() => toggleComplete(task.id)} 
+              <li key={task.id} className={task.completed ? 'completed' : ''}>
+                <input
+                  type="checkbox"
+                  checked={task.completed}
+                  onChange={() => toggleComplete(task.id)}
                 />
-                {task.name} 
+                {task.name}
                 <button onClick={() => deleteTask(task.id)}>Delete</button>
               </li>
             ))}
