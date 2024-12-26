@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useTransition, animated } from 'react-spring';
 import './App.css';
+import { FaTrashAlt, FaCheckCircle } from 'react-icons/fa';
 
 function TaskManager() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Work");
+  const [darkMode, setDarkMode] = useState(false);
 
   const categories = ["Work", "Personal", "School", "Other"];
 
@@ -38,8 +41,19 @@ function TaskManager() {
     return tasks.filter((task) => task.category === category);
   };
 
+  const transitions = useTransition(tasks, {
+    keys: task => task.id,
+    from: { opacity: 0, transform: 'translateY(-20px)' },
+    enter: { opacity: 1, transform: 'translateY(0px)' },
+    leave: { opacity: 0, transform: 'translateY(20px)' },
+  });
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
   return (
-    <div className="task-manager">
+    <div className={`task-manager ${darkMode ? 'dark' : ''}`}>
       <h1>Task Manager</h1>
       
       <div className="task-input">
@@ -62,21 +76,26 @@ function TaskManager() {
         <button onClick={addTask}>Add Task</button>
       </div>
 
-      {/* Render tasks by category */}
+      <button className="toggle-dark-mode" onClick={toggleDarkMode}>
+        {darkMode ? 'Light Mode' : 'Dark Mode'}
+      </button>
+
       {categories.map((category) => (
         <div key={category}>
           <h3>{category}</h3>
           <ul>
-            {getFilteredTasks(category).map((task) => (
-              <li key={task.id} className={task.completed ? 'completed' : ''}>
+            {transitions((styles, task) => (
+              <animated.li style={styles} key={task.id} className={task.completed ? 'completed' : ''}>
                 <input
                   type="checkbox"
                   checked={task.completed}
                   onChange={() => toggleComplete(task.id)}
                 />
                 {task.name}
-                <button onClick={() => deleteTask(task.id)}>Delete</button>
-              </li>
+                <button onClick={() => deleteTask(task.id)}>
+                  <FaTrashAlt />
+                </button>
+              </animated.li>
             ))}
           </ul>
         </div>
