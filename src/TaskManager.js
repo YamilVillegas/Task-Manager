@@ -40,7 +40,7 @@ function TaskManager() {
     <div className="task-manager">
       <h1 style={{color: '#ffffff'}}>Task Manager</h1>
       
-      <div className="task-input">
+      <div className="task-input-container">
         <input
           type="text"
           value={newTask}
@@ -53,16 +53,17 @@ function TaskManager() {
           }}
         />
         
-        <select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-        >
-          {categories.map((category) => (
-            <option key={category} value={category}>{category}</option>
-          ))}
-        </select>
-
-        <button onClick={addTask}>Add Task</button>
+        <div className="task-controls">
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            {categories.map((category) => (
+              <option key={category} value={category}>{category}</option>
+            ))}
+          </select>
+          <button onClick={addTask}>Add Task</button>
+        </div>
       </div>
 
       {categories.map((category) => (
