@@ -1,42 +1,44 @@
 import React, { useState } from 'react';
 
 function TaskManager() {
-  // State to hold the list of tasks
   const [tasks, setTasks] = useState([]);
-  
-  // State to hold the new task name
   const [newTask, setNewTask] = useState("");
-  
-  // State to hold selected category
   const [selectedCategory, setSelectedCategory] = useState("Work");
 
-  // Categories options
   const categories = ["Work", "Personal", "School", "Other"];
 
   // Function to add a new task
   const addTask = () => {
     if (newTask.trim() !== "") {
       setTasks([
-        ...tasks, 
+        ...tasks,
         { 
-          id: Date.now(), 
-          name: newTask, 
-          category: selectedCategory 
+          id: Date.now(),
+          name: newTask,
+          category: selectedCategory,
+          completed: false // New property to track completion
         }
       ]);
-      setNewTask("");  // Reset the input field
-      setSelectedCategory("Work"); // Reset category selection
+      setNewTask("");
+      setSelectedCategory("Work");
     }
+  };
+
+  // Function to toggle completion status of a task
+  const toggleComplete = (id) => {
+    setTasks(tasks.map((task) =>
+      task.id === id ? { ...task, completed: !task.completed } : task
+    ));
   };
 
   // Function to delete a task
   const deleteTask = (id) => {
-    setTasks(tasks.filter(task => task.id !== id));
+    setTasks(tasks.filter((task) => task.id !== id));
   };
 
   // Function to filter tasks by category
   const getFilteredTasks = (category) => {
-    return tasks.filter(task => task.category === category);
+    return tasks.filter((task) => task.category === category);
   };
 
   return (
@@ -69,7 +71,12 @@ function TaskManager() {
           <h3>{category}</h3>
           <ul>
             {getFilteredTasks(category).map((task) => (
-              <li key={task.id}>
+              <li key={task.id} style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
+                <input 
+                  type="checkbox" 
+                  checked={task.completed} 
+                  onChange={() => toggleComplete(task.id)} 
+                />
                 {task.name} 
                 <button onClick={() => deleteTask(task.id)}>Delete</button>
               </li>
